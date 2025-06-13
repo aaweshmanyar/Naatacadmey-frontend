@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دارالعلوم علمیہ - ویب سائٹ</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --base-primary-green: #198754;
+            --base-secondary-blue: #0dcaf0;
+            --base-dark-text: #212529;
+            --base-light-text: #f8f9fa;
+            --base-card-bg: #ffffff;
+            --base-section-bg-light: #f4f8f6;
+            --base-section-bg-lighter: #f9fcfb;
+            --font-urdu: 'Noto Nastaliq Urdu', serif;
+            --font-arabic-ayah: 'Scheherazade New', serif;
+            
+            --quran-primary-color: #004d40;
+            --quran-secondary-color: #00796b;
+            --hadith-primary-color: #4e342e;
+            --hadith-secondary-color: #795548;
+            --courses-primary-color: #00695c;
+            --courses-secondary-color: #009688;
+            --articles-primary-color: var(--base-primary-green);
+            --articles-secondary-color: var(--base-secondary-blue);
+            --media-primary-color: #ad1457;
+            --media-secondary-color: #d81b60;
+        }
+
+        body {
+            font-family: var(--font-urdu);
+            direction: rtl;
+            background-color: var(--base-section-bg-lighter);
+            color: var(--base-dark-text);
+            overflow-x: hidden;
+            line-height: 1.9; 
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            font-family: var(--font-urdu);
+        }
+        
+        .navbar {
+            background: linear-gradient(to left, var(--base-primary-green), #105c39);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+            padding: 0.8rem 1.2rem;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.7rem;
+            color: var(--base-light-text) !important;
+        }
+        .nav-link {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.9) !important;
+            transition: color 0.3s ease, transform 0.2s ease;
+            margin: 0 0.4rem;
+            padding: 0.6rem 0.8rem !important;
+            border-radius: 5px;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--base-light-text) !important;
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        #heroSlider { margin-top: 70px; }
+        #heroSlider .carousel-item {
+            height: 75vh; 
+            min-height: 380px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            transition: opacity 1s ease-in-out; 
+            opacity: 0;
+            position: absolute; 
+            width:100%;
+        }
+        #heroSlider .carousel-item.active { opacity: 1; position: relative; }
+        #heroSlider .carousel-item::before {
+            content: ""; display: block; position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+        }
+        #heroSlider .carousel-caption {
+            bottom: 80px; 
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+        #heroSlider .carousel-caption h5 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; }
+        #heroSlider .carousel-caption p { font-size: clamp(1rem, 3vw, 1.6rem); }
+
+        .page-section {
+            padding: 70px 0;
+            position: relative;
+        }
+        .page-section .section-heading { 
+            font-size: clamp(2.2rem, 5vw, 2.8rem); 
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-align: center;
+        }
+        .page-section p.lead { 
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            line-height: 1.9;
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .sub-section-heading {
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            margin-top: 30px;
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-align: right; 
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .custom-card {
+            background-color: var(--base-card-bg);
+            border: 1px solid #e0e0e0;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            margin-bottom: 30px;
+            display: flex; flex-direction: column; height: 100%;
+        }
+        .custom-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(var(--rgb-current-primary, 25, 135, 84), 0.12);
+        }
+        .custom-card .card-img-top-placeholder, .custom-card .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid transparent; 
+        }
+        .custom-card:hover .card-img-top-placeholder, .custom-card:hover .card-img-top {
+            border-color: rgba(var(--rgb-current-primary, 25, 135, 84), 0.7);
+        }
+        .custom-card .card-body {
+            padding: 25px; flex-grow: 1; display: flex; flex-direction: column;
+        }
+        .custom-card .card-title {
+            font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 15px;
+        }
+        .custom-card .card-text {
+            font-size: clamp(0.9rem, 2vw, 1.05rem); color: #454545; line-height: 1.8; flex-grow: 1;
+        }
+        .custom-card .btn {
+            margin-top: auto;
+            border: none; font-weight: 500; padding: 10px 25px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            color: var(--base-light-text) !important;
+        }
+        .custom-card .btn:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 5px 15px rgba(var(--rgb-current-primary, 25, 135, 84), 0.25);
+        }
+        
+        .content-detail-card {
+            background-color: var(--base-card-bg);
+            border: 1px solid #eee;
+            border-right: 5px solid var(--current-primary, var(--base-primary-green)); 
+            border-radius: 8px; 
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            margin-bottom: 15px;
+            padding: 20px;
+        }
+        .content-detail-card .card-title { 
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem); font-weight: 500; margin-bottom: 8px;
+            color: var(--current-primary, var(--base-primary-green));
+        }
+        .content-detail-card p {
+            font-size: clamp(0.95rem, 2.2vw, 1.1rem); 
+            color: #333; 
+            line-height: 2.0;
+            margin-bottom: 0;
+        }
+        
+        .detail-content-area { /* Class for all initially hidden detail sections */
+            display: none;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 2px dashed #ddd; /* Visual separator */
+        }
+        .detail-content-area.active { /* Class to show the section */
+            display: block;
+        }
+
+
+        #home-intro-section {
+            --current-primary: var(--base-primary-green);
+            --rgb-current-primary: 25, 135, 84;
+            --current-secondary: var(--base-secondary-blue);
+            background-color: var(--base-section-bg-light);
+        }
+        #home-intro-section .section-heading { color: var(--current-primary); }
+        #home-intro-section .lead { color: #555; }
+        #home-intro-section .custom-card .card-title { color: var(--current-primary); }
+        #home-intro-section .custom-card .btn { background: linear-gradient(135deg, var(--current-secondary), var(--current-primary)); }
+        #home-intro-section .btn-quick-nav {
+            color: white; border-radius: 8px; padding: 12px 25px; font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+        #home-intro-section .btn-quick-nav:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
+        #home-intro-section .btn-quran { background: linear-gradient(135deg, #1e8255, #146c43); }
+        #home-intro-section .btn-hadith { background: linear-gradient(135deg, #0f95b0, #0baccc); }
+        #home-intro-section .btn-fatwa { background: linear-gradient(135deg, #e6a700, #ffc107); color: #212529 !important; }
+
+        #quran-section {
+            --current-primary: var(--quran-primary-color);
+            --rgb-current-primary: 0, 77, 64;
+            --current-secondary: var(--quran-secondary-color);
+            color: var(--base-light-text);
+            background-image: url('https://img.freepik.com/free-photo/lamp-mat-near-quran_23-2147868927.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+        }
+        #quran-section::before { 
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0, 77, 64, 0.92), rgba(0, 121, 107, 0.85)); 
+            z-index: 1;
+        }
+        #quran-section > .container { position: relative; z-index: 2; }
+        #quran-section .section-heading, #quran-section .sub-section-heading { color: var(--base-light-text); text-shadow: 1px 1px 3px rgba(0,0,0,0.4); border-color: var(--quran-secondary-color); }
+        #quran-section .lead, #quran-section p:not(.text-ayah) { color: var(--base-light-text); opacity: 0.95; }
+        #quran-section .custom-card { background-color: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); } 
+        #quran-section .custom-card .card-title { color: var(--base-light-text); }
+        #quran-section .custom-card .card-text { color: rgba(255,255,255,0.85); }
+        #quran-section .custom-card .btn { background: linear-gradient(135deg, var(--current-secondary), var(--current-primary)); }
+        #quran-section .content-detail-card { background-color: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); border-right-color: var(--current-secondary); }
+        #quran-section .content-detail-card .card-title { color: var(--base-light-text); }
+        #quran-section .content-detail-card p { color: rgba(255,255,255,0.9); }
+        .text-ayah {
+            font-family: var(--font-arabic-ayah);
+            font-size: clamp(1.8rem, 4vw, 2.2rem); line-height: 2.8; text-align: right;
+            margin-bottom: 10px; color: var(--base-light-text); 
+        }
+        .translation-text { font-size: clamp(0.9rem, 2.2vw, 1.1rem); color: rgba(220,220,220,0.95); line-height: 1.9; margin-top: 5px; }
+        .tafsir-text { font-size: clamp(0.85rem, 2vw, 1.05rem); color: rgba(210,210,210,0.9); }
+        #quran-section .audio-player-card .btn { background-color: var(--current-secondary); border-color: var(--current-secondary); }
+        #quran-section .audio-player-card .btn:hover { background-color: var(--current-primary); border-color: var(--current-primary); }
+        #quran-section .surah-info { color: rgba(255,255,255,0.8); }
+        #quran-section .badge.bg-success { background-color: var(--base-primary-green) !important; }
+        #quran-section .badge.bg-info { background-color: var(--base-secondary-blue) !important; color: var(--base-dark-text) !important;}
+
+        #hadith-section {
+            --current-primary: var(--hadith-primary-color);
+            --rgb-current-primary: 78, 52, 46;
+            --current-secondary: var(--hadith-secondary-color);
+            color: var(--base-light-text);
+            background-image: url('https://img.freepik.com/free-photo/close-up-islamic-new-year-concept-with-misbaha_23-2148611691.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+        }
+        #hadith-section::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(78, 52, 46, 0.92), rgba(121, 85, 72, 0.85)); z-index: 1;
+        }
+        #hadith-section > .container { position: relative; z-index: 2; }
+        #hadith-section .section-heading { color: var(--base-light-text); text-shadow: 1px 1px 3px rgba(0,0,0,0.4); }
+        #hadith-section .lead, #hadith-section p { color: var(--base-light-text); opacity: 0.95; }
+        #hadith-section .custom-card .btn { background: linear-gradient(135deg, var(--current-secondary), var(--current-primary)); }
+        #hadith-section .icon-feature i { font-size: clamp(2.5rem, 5vw, 3rem); margin-bottom: 1rem; color: var(--current-secondary); transition: transform 0.3s ease; }
+        #hadith-section .icon-feature:hover i { transform: scale(1.1); }
+
+        #articles-courses-section {
+            --current-primary: var(--articles-primary-color); 
+            --rgb-current-primary: 25, 135, 84; 
+            --current-secondary: var(--articles-secondary-color);
+            background-image: url('https://img.freepik.com/free-photo/islamic-elements-with-quran-top-view_23-2148231005.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: var(--base-light-text);
+        }
+        #articles-courses-section::before { 
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(25, 135, 84, 0.88), rgba(13, 202, 240, 0.8)); 
+            z-index: 1;
+        }
+        #articles-courses-section > .container { position: relative; z-index: 2; }
+        #articles-courses-section .section-heading { color: var(--base-light-text); text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        #articles-courses-section .sub-section-heading { color: var(--base-light-text); border-color: var(--base-light-text); text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+        #articles-courses-section .lead { color: rgba(255,255,255,0.9); }
+        #articles-courses-section .custom-card { background-color: rgba(255,255,255,0.92); border:none; }
+        #articles-courses-section .custom-card .card-title { color: var(--current-primary); } 
+        #articles-courses-section .custom-card .card-text { color: #333; }
+        #articles-courses-section .custom-card .btn { background: linear-gradient(135deg, var(--current-secondary), var(--current-primary)); }
+        #articles-courses-section .content-detail-card { background-color: rgba(255,255,255,0.97); border-right-color: var(--current-primary); }
+        #articles-courses-section .content-detail-card .card-title { color: var(--current-primary); }
+        #articles-courses-section .content-detail-card p { color: #222; }
+        #articles-courses-section .article-meta { color: rgba(240,240,240,0.85); }
+        #articles-courses-section .custom-card.course-card .card-title { color: var(--courses-primary-color, var(--current-primary)); }
+        #articles-courses-section .custom-card.course-card .btn { background: linear-gradient(135deg, var(--courses-secondary-color, var(--current-secondary)), var(--courses-primary-color, var(--current-primary))); }
+
+        #media-section {
+            --current-primary: var(--media-primary-color);
+            --rgb-current-primary: 173, 20, 87;
+            --current-secondary: var(--media-secondary-color);
+            color: var(--base-light-text);
+            background-image: url('https://img.freepik.com/free-photo/mexican-style_1321-484.jpg'); /* This image seems unrelated, consider changing */
+            background-size: cover; background-position: center; background-attachment: fixed;
+        }
+        #media-section::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(173, 20, 87, 0.9), rgba(216, 27, 96, 0.82)); 
+            z-index: 1;
+        }
+        #media-section > .container { position: relative; z-index: 2; }
+        #media-section .section-heading { color: var(--base-light-text); text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        #media-section .lead { color: rgba(255,255,255,0.9); }
+        #media-section .custom-card { background-color: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); }
+        #media-section .custom-card .card-title { color: var(--base-light-text); }
+        #media-section .custom-card .card-text { color: rgba(240,240,240,0.85); }
+        #media-section .custom-card .btn { background: linear-gradient(135deg, var(--current-secondary), var(--current-primary)); }
+
+        footer {
+            background: linear-gradient(to right, #2c3e50, #1e2b37);
+            color: rgba(255,255,255,0.85);
+            padding: 60px 0 30px 0;
+            font-size: 0.95rem;
+        }
+        footer p { margin-bottom: 0; }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            #heroSlider .carousel-caption h5 { font-size: 2rem; }
+            #heroSlider .carousel-caption p { font-size: 1rem; }
+            .page-section .section-heading { font-size: 2rem; }
+            .page-section p.lead { font-size: 1rem; }
+            .sub-section-heading { font-size: 1.8rem; }
+            .custom-card .card-title { font-size: 1.2rem; }
+            .custom-card .card-text { font-size: 0.9rem; }
+            .custom-card .btn { padding: 8px 20px; font-size: 0.9rem;}
+            .text-ayah { font-size: 1.8rem; line-height: 2.5; }
+        }
+         @media (max-width: 576px) {
+            .navbar-brand { font-size: 1.4rem;}
+            .nav-link { font-size: 1rem; padding: 0.5rem 0.6rem !important;}
+            #heroSlider { margin-top: 60px; } /* Adjust for potentially smaller navbar */
+            #heroSlider .carousel-item { height: 60vh; min-height: 300px;}
+            #heroSlider .carousel-caption { bottom: 40px; }
+            #home-intro-section .btn-quick-nav { font-size: 0.9rem; padding: 10px 15px; margin: 5px !important;}
+         }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">دارالعلوم علمیہ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">مرکزی صفحہ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#quran-section">قرآن</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#hadith-section">حدیث</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#articles-courses-section">مضامین و کورسز</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#fatwa-section">فتویٰ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#media-section">میڈیا</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#blog-section">بلاگ</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> مزید </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreDropdown" style="text-align: right;">
+                            <li><a class="dropdown-item" href="#ask-scholar-section"><i class="bi bi-mic me-2"></i>عالم سے پوچھیں</a></li>
+                            <li><a class="dropdown-item" href="#download-section"><i class="bi bi-download me-2"></i>ڈاؤنلوڈ</a></li>
+                            <li><a class="dropdown-item" href="#prayer-times-section"><i class="bi bi-clock me-2"></i>نماز کے اوقات</a></li>
+                            <li><a class="dropdown-item" href="#contact-section"><i class="bi bi-envelope me-2"></i>رابطہ</a></li>
+                            <li><a class="dropdown-item" href="#donate-section"><i class="bi bi-heart me-2"></i>عطیات</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                 <div class="language-switcher text-white-50 ms-lg-3 d-none d-lg-block">
+                     <small>(اردو | Eng | عربية)</small>
+                 </div>
+            </div>
+        </div>
+    </nav>
+
+    <header id="home">
+        <div id="heroSlider" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="background-image: url('https://img.freepik.com/free-photo/arab-arched-windows_1122-1300.jpg');">
+                    <div class="carousel-caption">
+                        <h5>دارالعلوم علمیہ میں خوش آمدید</h5>
+                        <p>مستند اسلامی تعلیمات کا مرکز</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('https://img.freepik.com/free-photo/low-rise-building_1127-3272.jpg');">
+                    <div class="carousel-caption">
+                        <h5>قرآن و سنت کی روشنی میں علم حاصل کریں</h5>
+                        <p>مختلف کورسز اور مضامین کے ذریعے</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('https://img.freepik.com/free-photo/view-camlica-mosque-istanbul-evening-turkey_1268-22510.jpg');">
+                    <div class="carousel-caption">
+                        <h5>دینی مسائل کا حل</h5>
+                        <p>ہمارے فتویٰ سیکشن کے ذریعے اپنے سوالات پوچھیں</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroSlider" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">گزشتہ</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroSlider" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">اگلا</span>
+            </button>
+        </div>
+    </header>
+
+    <section id="home-intro-section" class="page-section" data-aos="fade-up">
+        <div class="container">
+            <h2 class="section-heading">ہمارا تعارف اور مقاصد</h2>
+            <p class="lead" data-aos="fade-up" data-aos-delay="100">دارالعلوم علمیہ ایک آن لائن پلیٹ فارم ہے جس کا مقصد قرآن و سنت کی روشنی میں مستند اسلامی تعلیمات کو عام کرنا ہے۔ ہمارا مشن جدید ٹیکنالوجی کو بروئے کار لاتے ہوئے علم دین کی ترویج اور اسلامی اقدار کا فروغ ہے۔ ہمارے بنیادی مقاصد درج ذیل ہیں:</p>
+            <ul class="list-group list-group-flush text-center fs-5 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <li class="list-group-item bg-transparent py-2"><i class="bi bi-book-half me-2 text-success"></i>مختلف سطحوں پر اسلامی علم سکھانا (قرآن، حدیث، فقہ، عقیدہ، سیرت، عربی زبان وغیرہ)۔</li>
+                <li class="list-group-item bg-transparent py-2"><i class="bi bi-patch-question-fill me-2 text-success"></i>عوامی، فقہی اور معاشرتی سوالات کے مستند جوابات فراہم کرنا (فتویٰ سیکشن)۔</li>
+                <li class="list-group-item bg-transparent py-2"><i class="bi bi-collection-play-fill me-2 text-success"></i>علمی و تحقیقی اسلامی مضامین، مقالات اور ملٹی میڈیا مواد (آڈیو/ویڈیو بیانات) شیئر کرنا۔</li>
+                 <li class="list-group-item bg-transparent py-2"><i class="bi bi-translate me-2 text-success"></i>مستند اسلامی مواد کو اردو، انگریزی اور عربی زبانوں میں فروغ دینا۔</li>
+            </ul>
+
+            <h3 class="text-center section-heading fs-2 mt-5" data-aos="fade-up" data-aos-delay="300">تازہ ترین</h3>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4" data-aos="zoom-in-up" data-aos-delay="350">
+                    <div class="custom-card">
+                        <img src="https://img.freepik.com/free-photo/still-life-crucifix-with-book_23-2149344432.jpg" class="card-img-top" alt="مضمون ایمان" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body">
+                            <h5 class="card-title">ایمان کی اہمیت اور تقاضے</h5>
+                            <p class="card-text">ایمان نہ صرف قلبی تصدیق ہے بلکہ عملی زندگی میں اس کے گہرے اثرات مرتب ہوتے ہیں۔ یہ مضمون ایمان کے ارکان، فوائد اور عصر حاضر میں اس کے تقاضوں پر روشنی ڈالتا ہے۔</p>
+                            <button type="button" class="btn mt-auto detail-trigger" data-target="#article-detail-iman"><i class="bi bi-arrow-left-short"></i> مزید پڑھیں</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="zoom-in-up" data-aos-delay="400">
+                    <div class="custom-card">
+                        <img src="https://img.freepik.com/free-photo/holy-quran-hand-with-arabic-calligraphy-meaning-al-quran_181624-49586.jpg" class="card-img-top" alt="سورۃ الفاتحہ" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body">
+                            <h5 class="card-title">سورۃ الفاتحہ: قرآن کا خلاصہ</h5>
+                            <p class="card-text">قرآن مجید کی پہلی اور عظیم ترین سورۃ کی مختصر مگر جامع تفسیر، جو اس کے معانی، فضائل اور اہم نکات کو واضح کرتی ہے۔</p>
+                            <button type="button" class="btn mt-auto detail-trigger" data-target="#surah-fatiha-detail-section" style="background: linear-gradient(135deg, var(--quran-secondary-color), var(--quran-primary-color));"><i class="bi bi-book-fill"></i> تفصیلات</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="zoom-in-up" data-aos-delay="450">
+                    <div class="custom-card">
+                        <img src="https://img.freepik.com/free-photo/pot-candle-near-opened-book_23-2147868944.jpg" class="card-img-top" alt="حدیث اخلاص" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body">
+                            <h5 class="card-title">اخلاص نیت: اعمال کی قبولیت کا معیار</h5>
+                            <p class="card-text"> مشہور حدیث "انما الاعمال بالنیات" کی روشنی میں اخلاص کی اہمیت، اس کے درجات اور ریاکاری کے نقصانات پر ایک اہم علمی بحث۔</p>
+                            <button type="button" class="btn mt-auto detail-trigger" data-target="#hadith-ikhlas-detail" style="background: linear-gradient(135deg, var(--hadith-secondary-color), var(--hadith-primary-color));"><i class="bi bi-journals"></i> تفصیلات</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-5" data-aos="fade-up" data-aos-delay="500">
+            <h3 class="text-center section-heading fs-2" data-aos="fade-up" data-aos-delay="550">فوری رسائی</h3>
+            <div class="text-center" data-aos="fade-up" data-aos-delay="600">
+                <a href="#quran-section" class="btn btn-quran btn-lg btn-quick-nav m-2"><i class="bi bi-book me-2"></i>قرآن کریم</a>
+                <a href="#hadith-section" class="btn btn-hadith btn-lg btn-quick-nav m-2"><i class="bi bi-journals me-2"></i>احادیث</a>
+                <a href="#fatwa-section" class="btn btn-fatwa btn-lg btn-quick-nav m-2"><i class="bi bi-patch-question me-2"></i>فتویٰ</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="quran-section" class="page-section" data-aos="fade">
+        <div class="container">
+            <h2 class="section-heading">قرآن کریم</h2>
+            <p class="lead mb-5">قرآن مجید اللہ تعالیٰ کا کلام، انسانیت کے لیے مکمل ضابطہ حیات اور ہدایت کا سرچشمہ ہے۔ اس کا پڑھنا، سمجھنا اور اس پر عمل کرنا ہر مسلمان کی اولین ذمہ داری ہے۔</p>
+            
+            <h3 class="sub-section-heading">فہرست سورۃ (منتخب)</h3>
+            <div class="row">
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in-up" data-aos-delay="100">
+                    <div class="custom-card">
+                        <div class="card-img-top-placeholder d-flex align-items-center justify-content-center" style="background-color: var(--quran-primary-color); color: white; height:120px;"><span>سورۃ الفاتحہ</span></div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">۱. سورۃ الفاتحہ</h5>
+                            <button type="button" class="btn btn-sm detail-trigger" data-target="#surah-fatiha-detail-section"><i class="bi bi-book-fill me-1"></i>تفصیلات</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in-up" data-aos-delay="200">
+                     <div class="custom-card">
+                        <div class="card-img-top-placeholder d-flex align-items-center justify-content-center" style="background-color: var(--quran-primary-color); color: white; height:120px;"><span>سورۃ البقرۃ</span></div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">۲. سورۃ البقرۃ</h5>
+                            <button type="button" class="btn btn-sm detail-trigger" data-target="#surah-baqarah-detail-section"><i class="bi bi-book-fill me-1"></i>تفصیلات</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in-up" data-aos-delay="300">
+                    <div class="custom-card">
+                        <div class="card-img-top-placeholder d-flex align-items-center justify-content-center" style="background-color: var(--quran-primary-color); color: white; height:120px;"><span>سورۃ آل عمران</span></div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">۳. سورۃ آل عمران</h5>
+                            <button type="button" class="btn btn-sm detail-trigger" data-target="#surah-aalimran-detail-section"><i class="bi bi-book-fill me-1"></i>تفصیلات</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in-up" data-aos-delay="400">
+                    <div class="custom-card">
+                        <div class="card-img-top-placeholder d-flex align-items-center justify-content-center" style="background-color: var(--quran-primary-color); color: white; height:120px;"><span>سورۃ النساء</span></div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">۴. سورۃ النساء</h5>
+                            <button type="button" class="btn btn-sm detail-trigger" data-target="#surah-nisa-detail-section"><i class="bi bi-book-fill me-1"></i>تفصیلات</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="surah-fatiha-detail-section" class="detail-content-area" data-aos="fade-up" data-aos-delay="200">
+                <h3 class="sub-section-heading text-center display-5 mb-3">سورۃ الفاتحہ</h3>
+                <p class="text-center surah-info mb-4"> (آغاز) - <span class="badge bg-success">مکی</span> - ۷ آیات - ام القرآن</p>
+
+                <h4 class="sub-section-heading fs-4">متن عربی</h4>
+                <div class="content-detail-card">
+                    <p class="text-ayah">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ (۱) اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَ (۲) الرَّحْمٰنِ الرَّحِيْمِ (۳) مٰلِكِ يَوْمِ الدِّيْنِ (۴) اِيَّاكَ نَعْبُدُ وَاِيَّاكَ نَسْتَعِيْنُ (۵) اِهْدِنَا الصِّرَاطَ الْمُسْتَقِيْمَ (۶) صِرَاطَ الَّذِيْنَ اَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوْبِ عَلَيْهِمْ وَلَا الضَّآلِّيْنَ (۷)</p>
+                </div>
+
+                <h4 class="sub-section-heading fs-4 mt-4">اردو ترجمہ (کنزالایمان - امام احمد رضا خان)</h4>
+                <div class="content-detail-card">
+                    <h5 class="card-title">آیات ۱-۳</h5>
+                    <p class="translation-text">اللہ کے نام سے شروع جو نہایت مہربان رحم والا۔ (۱) سب خوبیاں اللہ کو جو مالک سارے جہان والوں کا۔ (۲) بہت مہربان رحمت والا۔ (۳)</p>
+                </div>
+                <div class="content-detail-card">
+                    <h5 class="card-title">آیات ۴-۵</h5>
+                    <p class="translation-text">روز جزاء کا مالک۔ (۴) ہم تجھی کو پوجیں اور تجھی سے مدد چاہیں۔ (۵)</p>
+                </div>
+                <div class="content-detail-card">
+                    <h5 class="card-title">آیات ۶-۷</h5>
+                    <p class="translation-text">ہم کو سیدھا راستہ چلا۔ (۶) راستہ ان کا جن پر تو نے احسان کیا نہ ان کا جن پر غضب ہوا اور نہ بہکے ہوؤں کا۔ (۷)</p>
+                </div>
+                
+                <h4 class="sub-section-heading fs-4 mt-4">مختصر تفسیر (ماخوذ)</h4>
+                <div class="content-detail-card">
+                    <h5 class="card-title">نکتہ ۱: حمد و ثنا کا جامع کلمہ</h5>
+                    <p class="tafsir-text">سورۃ الفاتحہ کا آغاز اللہ تعالیٰ کی حمد و ثنا سے ہوتا ہے، جو تمام جہانوں کا پروردگار، نہایت مہربان اور رحم کرنے والا ہے۔ یہ بندے کی طرف سے اپنے رب کے حضور شکرگزاری، تعریف اور تمام صفاتِ کمال کا اعتراف ہے۔ یہ سورۃ دعا بھی ہے اور اللہ کی کبریائی کا بیان بھی۔</p>
+                </div>
+                <div class="content-detail-card">
+                    <h5 class="card-title">نکتہ ۲: توحید عبادت و استعانت کا عہد</h5>
+                    <p class="tafsir-text">"ایاک نعبد و ایاک نستعین" میں توحیدِ عبادت اور توحیدِ استعانت کا واضح بیان اور بندے کا اللہ سے عہد ہے۔ یعنی عبادت صرف اللہ کی اور حقیقی مدد بھی صرف اسی سے طلب کی جائے گی۔ یہ اسلام کی بنیادی تعلیم اور شرک کی تمام اقسام کی نفی ہے۔</p>
+                </div>
+                <div class="content-detail-card">
+                    <h5 class="card-title">نکتہ ۳: ہدایت کی جامع دعا</h5>
+                    <p class="tafsir-text">سورۃ کا اختتام ہدایت کی ایک جامع دعا پر ہوتا ہے۔ بندہ اللہ سے صراط مستقیم پر چلنے کی توفیق مانگتا ہے، یعنی ان لوگوں کا راستہ جن پر اللہ کا انعام ہوا (انبیاء، صدیقین، شہداء، صالحین)، نہ کہ ان کا جن پر غضب نازل ہوا (یہود) یا جو گمراہ ہوئے (نصاریٰ)۔ یہ دعا دنیا و آخرت کی کامیابی کی ضامن ہے۔</p>
+                </div>
+                 <div class="content-detail-card">
+                    <h5 class="card-title">نکتہ ۴: سورۃ الفاتحہ کے فضائل</h5>
+                    <p class="tafsir-text">احادیث میں سورۃ الفاتحہ کے بے شمار فضائل بیان ہوئے ہیں۔ اسے "ام القرآن" (قرآن کی ماں)، "السبع المثانی" (سات بار بار دہرائی جانے والی آیات) اور "سورۃ الشفاء" (شفاء دینے والی سورۃ) بھی کہا گیا ہے۔ نماز کی ہر رکعت میں اس کی تلاوت واجب ہے۔</p>
+                </div>
+
+
+                <h4 class="sub-section-heading fs-4 mt-4">تلاوت</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="custom-card audio-player-card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">شیخ مشاری راشد العفاسی</h5>
+                                <p class="small text-white-50 mb-2"> دورانیہ: ۱:۰۵</p>
+                                <audio controls class="w-100 mt-2" style="filter: invert(1) hue-rotate(180deg);"> <source src="placeholder_audio.mp3" type="audio/mpeg" onerror="this.parentElement.innerHTML = 'آڈیو لوڈ نہیں ہو سکی۔';"> آپ کا براؤزر آڈیو کو سپورٹ نہیں کرتا۔ </audio>
+                                <a href="#" class="btn btn-sm mt-2"><i class="bi bi-download me-1"></i>ڈاؤن لوڈ</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-card audio-player-card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">شیخ عبدالرحمٰن السدیس</h5>
+                                 <p class="small text-white-50 mb-2"> دورانیہ: ۰:۵۸</p>
+                                <audio controls class="w-100 mt-2" style="filter: invert(1) hue-rotate(180deg);"> <source src="placeholder_audio.mp3" type="audio/mpeg" onerror="this.parentElement.innerHTML = 'آڈیو لوڈ نہیں ہو سکی۔';"> آپ کا براؤزر آڈیو کو سپورٹ نہیں کرتا۔ </audio>
+                                <a href="#" class="btn btn-sm mt-2"><i class="bi bi-download me-1"></i>ڈاؤن لوڈ</a>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="col-md-4">
+                        <div class="custom-card audio-player-card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">قاری عبدالباسط عبدالصمد</h5>
+                                 <p class="small text-white-50 mb-2"> دورانیہ: ۱:۱۵</p>
+                                <audio controls class="w-100 mt-2" style="filter: invert(1) hue-rotate(180deg);"> <source src="placeholder_audio.mp3" type="audio/mpeg" onerror="this.parentElement.innerHTML = 'آڈیو لوڈ نہیں ہو سکی۔';"> آپ کا براؤزر آڈیو کو سپورٹ نہیں کرتا۔ </audio>
+                                <a href="#" class="btn btn-sm mt-2"><i class="bi bi-download me-1"></i>ڈاؤن لوڈ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="surah-baqarah-detail-section" class="detail-content-area" data-aos="fade-up"> 
+                 <h3 class="sub-section-heading text-center display-5 mb-3">سورۃ البقرۃ (تفصیلات جلد آرہی ہیں)</h3>
+                 <p class="lead text-center">یہاں سورۃ البقرۃ کی تفصیلات، ترجمہ اور تفسیر شامل کی جائے گی۔</p>
+            </div>
+            </div>
+    </section>
+
+    <section id="hadith-section" class="page-section" data-aos="fade">
+        <div class="container">
+            <h2 class="section-heading">احادیث نبویہ ﷺ</h2>
+            <p class="lead mb-5">نبی کریم ﷺ کے اقوال، افعال اور تقاریر (سنت) اسلامی شریعت کا دوسرا بڑا ماخذ ہیں۔ احادیث قرآن مجید کی تشریح و توضیح کرتی ہیں اور ہماری عملی زندگی کے لیے رہنمائی فراہم کرتی ہیں۔</p>
+            <div class="row text-center gy-4">
+                 <div class="col-md-4 icon-feature" data-aos="fade-right" data-aos-delay="100">
+                    <i class="bi bi-collection-fill"></i>
+                    <h4>اہم مجموعے</h4>
+                    <p>صحاح ستہ (بخاری، مسلم، ترمذی، ابو داؤد، نسائی، ابن ماجہ) و دیگر معتبر کتب حدیث۔</p>
+                </div>
+                <div class="col-md-4 icon-feature" data-aos="fade-up" data-aos-delay="200">
+                    <i class="bi bi-card-checklist"></i>
+                    <h4>موضوعاتی فہرست</h4>
+                    <p>ایمان، عبادات، معاملات، اخلاق، آداب اور دیگر اہم موضوعات کے تحت احادیث کی درجہ بندی۔</p>
+                </div>
+                <div class="col-md-4 icon-feature" data-aos="fade-left" data-aos-delay="300">
+                    <i class="bi bi-person-check"></i>
+                    <h4>اسناد و تحقیق</h4>
+                    <p>احادیث کی صحت، ضعف اور راویوں پر محدثین کی تحقیقات کا خلاصہ۔</p>
+                </div>
+            </div>
+            <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="400">
+                <button type="button" class="btn btn-lg text-white detail-trigger" data-target="#hadith-detail-placeholder" style="background: linear-gradient(135deg, var(--hadith-secondary-color), var(--hadith-primary-color));"><i class="bi bi-journals me-2"></i>چند منتخب احادیث دیکھیں</button>
+            </div>
+             <div id="hadith-ikhlas-detail" class="detail-content-area" data-aos="fade-up">
+                 <h3 class="sub-section-heading text-center display-5 mb-3">اخلاص نیت پر حدیث</h3>
+                 <div class="content-detail-card">
+                    <h5 class="card-title">متن حدیث</h5>
+                    <p class="text-ayah" style="font-size: 1.5rem; line-height: 2.2;">عَنْ أَمِيرِ الْمُؤْمِنِينَ أَبِي حَفْصٍ عُمَرَ بْنِ الْخَطَّابِ رَضِيَ اللهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللَّهِ صلى الله عليه وسلم يَقُولُ: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى..." (متفق علیہ)</p>
+                 </div>
+                 <div class="content-detail-card">
+                    <h5 class="card-title">ترجمہ</h5>
+                    <p>امیر المومنین حضرت عمر بن خطاب رضی اللہ عنہ سے روایت ہے کہ میں نے رسول اللہ صلی اللہ علیہ وسلم کو فرماتے ہوئے سنا: "اعمال کا دارومدار نیتوں پر ہے، اور ہر شخص کے لیے وہی ہے جس کی اس نے نیت کی۔"</p>
+                 </div>
+                 <div class="content-detail-card">
+                    <h5 class="card-title">مختصر شرح</h5>
+                    <p>یہ حدیث اسلام کے بنیادی اصولوں میں سے ہے۔ اس سے معلوم ہوتا ہے کہ کسی بھی عمل کی قبولیت اور اس پر اجر و ثواب کا انحصار کرنے والے کی نیت پر ہے۔ اگر نیت خالص اللہ کی رضا کے لیے ہو تو تھوڑا عمل بھی بہت زیادہ اجر کا باعث بن سکتا ہے، اور اگر نیت میں خرابی ہو (مثلاً دکھاوا یا دنیاوی غرض) تو بظاہر بڑا عمل بھی اللہ کے ہاں کوئی وقعت نہیں رکھتا۔</p>
+                 </div>
+                  <div class="content-detail-card">
+                    <h5 class="card-title">فوائد و مسائل</h5>
+                    <p>اس حدیث سے اخلاص کی اہمیت، ہر عمل سے پہلے نیت کو درست کرنے کی ضرورت، اور ریاکاری کی مذمت واضح ہوتی ہے۔ یہ ہمیں سکھاتی ہے کہ ہمارے تمام اعمال، خواہ وہ عبادات ہوں یا دنیاوی معاملات، اللہ کی خوشنودی کے لیے ہونے چاہئیں۔</p>
+                 </div>
+            </div>
+            <div id="hadith-detail-placeholder" class="detail-content-area" data-aos="fade-up">
+                <h3 class="sub-section-heading text-center display-6 mb-3">منتخب احادیث (تفصیلات جلد آرہی ہیں)</h3>
+                <p class="lead text-center">یہاں منتخب احادیث، ان کا ترجمہ اور مختصر تشریح شامل کی جائے گی۔</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="articles-courses-section" class="page-section" data-aos="fade-up">
+        <div class="container">
+            <h2 class="section-heading">مضامین و کورسز</h2>
+            <p class="lead">مختلف اسلامی موضوعات پر تفصیلی مضامین اور آن لائن کورسز جو آپ کے علم میں اضافے اور عمل میں پختگی کا باعث بنیں گے۔</p>
+
+            <h3 class="sub-section-heading">علمی مضامین (منتخب)</h3>
+            <div class="row">
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in-up" data-aos-delay="100">
+                    <div class="custom-card">
+                        <img src="https://img.freepik.com/free-photo/book-library-with-open-textbook_1150-5922.jpg" class="card-img-top" alt="ایمان" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body">
+                            <h5 class="card-title">ایمان کی اہمیت و تقاضے</h5>
+                            <p class="card-text">ایمان کے ارکان، فوائد، کمی و بیشی کے اسباب اور جدید دور میں ایک مومن کی ذمہ داریوں پر ایک جامع تحریر۔</p>
+                            <button type="button" class="btn mt-auto detail-trigger" data-target="#article-detail-iman"><i class="bi bi-file-earmark-text me-2"></i>مزید پڑھیں</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in-up" data-aos-delay="200">
+                    <div class="custom-card">
+                        <img src="https://img.freepik.com/free-photo/opened-quran-near-candle-sweet-dates_23-2147868960.jpg" class="card-img-top" alt="اخلاق" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body">
+                            <h5 class="card-title">اسلام میں حسن اخلاق</h5>
+                            <p class="card-text">قرآن و سنت کی روشنی میں اچھے اخلاق کی اہمیت، فضیلت اور معاشرتی زندگی پر اس کے مثبت اثرات کا تفصیلی جائزہ۔</p>
+                            <button type="button" class="btn mt-auto detail-trigger" data-target="#article-detail-akhlaq"><i class="bi bi-file-earmark-text me-2"></i>مزید پڑھیں</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in-up" data-aos-delay="300">
+                    <div class="custom-card">
+                         <img src="https://img.freepik.com/free-photo/books-imagination-still-life_23-2149082172.jpg" class="card-img-top" alt="سیرت" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body">
+                            <h5 class="card-title">سیرت النبی ﷺ کا عملی پہلو</h5>
+                            <p class="card-text">نبی کریم ﷺ کی زندگی سے حاصل ہونے والے اہم عملی اسباق اور ہماری انفرادی و اجتماعی زندگی کے لیے رہنمائی۔</p>
+                            <button type="button" class="btn mt-auto detail-trigger" data-target="#article-detail-seerah"><i class="bi bi-file-earmark-text me-2"></i>مزید پڑھیں</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="article-detail-iman" class="detail-content-area" data-aos="fade-up" data-aos-delay="200">
+                <h3 class="sub-section-heading text-center display-6 mb-3">ایمان کی اہمیت و تقاضے</h3>
+                <p class="article-meta text-center">
+                    <i class="bi bi-person-fill"></i> مقرر: مفتی عبدالکریم  | <i class="bi bi-calendar3"></i> تاریخ: ۲۵ مئی ۲۰۲۴ | <i class="bi bi-folder-fill"></i> زمرہ: عقیدہ
+                </p>
+
+                <h4 class="sub-section-heading fs-5">تعارف: ایمان کی حقیقت</h4>
+                <div class="content-detail-card">
+                    <p>ایمان اسلامی عقائد کی بنیاد اور روح ہے۔ یہ صرف زبان سے چند کلمات کا اقرار کر لینے کا نام نہیں بلکہ دل کی گہرائیوں سے تصدیق کرنے اور اپنے اعضاء و جوارح سے اس تصدیق کا عملی ثبوت پیش کرنے کا نام ہے۔ قرآن و حدیث میں ایمان کی اہمیت پر بہت زور دیا گیا ہے کیونکہ یہی وہ نور ہے جو انسان کو دنیا و آخرت میں کامیابی کی حقیقی راہ دکھاتا ہے۔</p>
+                </div>
+                <div class="content-detail-card">
+                    <p>ایمان کے بغیر کوئی بھی عمل اللہ تعالیٰ کے ہاں قابل قبول نہیں۔ یہ انسان کو اس کے خالق و مالک اللہ تعالیٰ سے جوڑتا ہے، اسے صحیح اور غلط، حق اور باطل کی تمیز سکھاتا ہے اور زندگی کے ہر معاملے میں، ہر نشیب و فراز میں مکمل رہنمائی فراہم کرتا ہے۔ یہ ایک ایسی قوت ہے جو مشکلات میں صبر اور آسانیوں میں شکر کی توفیق دیتی ہے۔</p>
+                </div>
+                <div class="content-detail-card">
+                    <p>اس مضمون میں ہم ایمان کی لغوی و اصطلاحی تعریف، اس کے بنیادی ارکان جن پر ایمان لانا ضروری ہے، ایمان لانے کے دنیوی و اخروی فوائد اور ان اہم اسباب پر روشنی ڈالیں گے جن سے ایمان میں کمی یا زیادتی واقع ہوتی ہے، نیز عصر حاضر کے چیلنجز کے تناظر میں ایک مومن کی ذمہ داریوں کا بھی جائزہ لیں گے۔</p>
+                </div>
+
+                <h4 class="sub-section-heading fs-5 mt-4">ایمان کے بنیادی ارکان</h4>
+                <div class="content-detail-card">
+                    <h5 class="card-title">۱. اللہ پر ایمان (التصدیق بوجود اللہ و وحدانیتہ)</h5>
+                    <p>اللہ تعالیٰ کی ذات، اس کی وحدانیت (توحید)، اس کی ربوبیت (کائنات کا پالنہار ہونا)، الوہیت (عبادت کا تنہا مستحق ہونا) اور اس کے اسماء و صفات پر بغیر کسی شک و شبہ کے، قرآن و سنت کی روشنی میں، ایمان لانا۔</p>
+                </div>
+                <div class="content-detail-card">
+                    <h5 class="card-title">۲. فرشتوں پر ایمان (التصدیق بالملائکۃ)</h5>
+                    <p>اللہ تعالیٰ کی نوری مخلوق، فرشتوں کے وجود پر ایمان لانا جو اللہ کے مختلف احکامات کی تعمیل کرتے ہیں، جیسے وحی لانا، اعمال لکھنا، روح قبض کرنا وغیرہ۔ ان کی تعداد اور تمام تفصیلات کا علم اللہ ہی کو ہے۔</p>
+                </div>
+                <div class="content-detail-card">
+                    <h5 class="card-title">۳. آسمانی کتابوں پر ایمان (التصدیق بالکتب السماویۃ)</h5>
+                    <p>اللہ تعالیٰ کی نازل کردہ تمام آسمانی کتابوں (مثلاً تورات، زبور، انجیل، اور قرآن مجید) پر اجمالی طور پر ایمان لانا، اور قرآن مجید کو آخری، مکمل اور محفوظ کتاب ماننا جو سابقہ تمام شریعتوں کی ناسخ ہے۔</p>
+                </div>
+                 <div class="content-detail-card">
+                    <h5 class="card-title">۴. رسولوں پر ایمان (التصدیق بالرسل)</h5>
+                    <p>اللہ تعالیٰ کے بھیجے ہوئے تمام انبیاء و رسولوں پر ایمان لانا، آدم علیہ السلام سے لے کر حضرت محمد مصطفیٰ صلی اللہ علیہ وسلم تک، اور حضرت محمد ﷺ کو خاتم النبیین یعنی آخری نبی ماننا، جن کے بعد کوئی نیا نبی نہیں آئے گا۔</p>
+                </div>
+                <div class="content-detail-card">
+                    <h5 class="card-title">۵. یوم آخرت پر ایمان (التصدیق بالیوم الآخر)</h5>
+                    <p>قیامت کے دن، حساب کتاب، جزا و سزا، جنت اور جہنم کے برحق ہونے پر مکمل یقین رکھنا۔ یہ دنیا ایک امتحان گاہ ہے اور اصل زندگی آخرت کی زندگی ہے۔</p>
+                </div>
+                 <div class="content-detail-card">
+                    <h5 class="card-title">۶. اچھی بری تقدیر پر ایمان (التصدیق بالقدر خیرہ و شرہ)</h5>
+                    <p>کائنات میں ہونے والے ہر اچھے اور برے واقعے کو اللہ تعالیٰ کی طرف سے مقدر شدہ ماننا، اس یقین کے ساتھ کہ اللہ کا کوئی فعل حکمت سے خالی نہیں۔ بندے کو اچھے اعمال کا حکم ہے اور برے اعمال سے بچنے کی تلقین۔</p>
+                </div>
+
+
+                <h4 class="sub-section-heading fs-5 mt-4">ایمان کے دنیوی و اخروی فوائد</h4>
+                <div class="content-detail-card">
+                    <h5 class="card-title">۱. قلبی سکون و اطمینان</h5>
+                    <p>ایمان دل کو حقیقی اطمینان اور سکون بخشتا ہے۔ اللہ پر توکل اور اس کی رضا پر راضی رہنا انسان کو دنیاوی پریشانیوں، خوف اور حسد جیسی بیماریوں سے نجات دلاتا ہے۔ (الرعد: ۲۸)</p>
+                </div>
+                <div class="content-detail-card">
+                    <h5 class="card-title">۲. دنیا و آخرت میں کامیابی و کامرانی</h5>
+                    <p>ایمان انسان کو نیک اعمال کی طرف راغب کرتا ہے، جس سے اس کی دنیاوی زندگی بھی پرامن اور بامقصد بنتی ہے اور آخرت میں بھی دائمی کامیابی (جنت) نصیب ہوتی ہے۔ (العصر: ۱-۳)</p>
+                </div>
+                <div class="content-detail-card">
+                    <h5 class="card-title">۳. مضبوط و پاکیزہ کردار کی تشکیل</h5>
+                    <p>ایمان انسان میں اعلیٰ اخلاقی خوبیاں پیدا کرتا ہے جیسے سچائی، امانت داری، عدل و انصاف، صبر و شکر، عفو و درگزر اور ایثار، جس سے ایک مضبوط، صالح اور پاکیزہ کردار تشکیل پاتا ہے۔</p>
+                </div>
+                 <div class="content-detail-card">
+                    <h5 class="card-title">۴. اللہ کی مدد و نصرت کا حصول</h5>
+                    <p>اللہ تعالیٰ نے اہل ایمان سے اپنی مدد و نصرت کا وعدہ فرمایا ہے۔ تاریخ گواہ ہے کہ جب بھی اہل ایمان نے صدق دل سے اللہ پر بھروسہ کیا، اللہ نے انہیں غلبہ عطا فرمایا۔ (محمد: ۷)</p>
+                </div>
+            </div>
+             <div id="article-detail-akhlaq" class="detail-content-area" data-aos="fade-up">
+                 <h3 class="sub-section-heading text-center display-6 mb-3">اسلام میں حسن اخلاق (تفصیلات جلد آرہی ہیں)</h3>
+                 <p class="lead text-center">یہاں حسن اخلاق کے موضوع پر تفصیلی مضمون شامل کیا جائے گا۔</p>
+            </div>
+            <div id="article-detail-seerah" class="detail-content-area" data-aos="fade-up">
+                 <h3 class="sub-section-heading text-center display-6 mb-3">سیرت النبی ﷺ کا عملی پہلو (تفصیلات جلد آرہی ہیں)</h3>
+                 <p class="lead text-center">یہاں سیرت النبی ﷺ کے عملی پہلوؤں پر مبنی مضمون شامل کیا جائے گا۔</p>
+            </div>
+
+
+            <h3 class="sub-section-heading mt-5">آن لائن کورسز (منتخب)</h3>
+             <div class="row">
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in-up" data-aos-delay="100">
+                    <div class="custom-card course-card">
+                        <img src="https://img.freepik.com/free-photo/muslim-men-praying-tashahhud-posture_53876-41088.jpg" class="card-img-top" alt="فقہ کورس" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body">
+                            <h5 class="card-title">فقہ العبادات (بنیادی کورس)</h5>
+                            <p class="card-text">طہارت، نماز، روزہ، زکوٰۃ اور حج کے بنیادی مسائل، شرائط، فرائض اور سنتوں پر مبنی ایک جامع اور آسان فہم کورس۔</p>
+                            <button type="button" class="btn mt-auto detail-trigger" data-target="#course-detail-fiqh"><i class="bi bi-journal-bookmark-fill me-2"></i>کورس دیکھیں</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in-up" data-aos-delay="200">
+                    <div class="custom-card course-card">
+                        <img src="https://img.freepik.com/free-photo/book-library-with-open-textbook_1150-5922.jpg" class="card-img-top" alt="عربی کورس" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body">
+                            <h5 class="card-title">عربی زبان برائے مبتدی (لیول ۱)</h5>
+                            <p class="card-text">قرآن فہمی کے لیے بنیادی عربی گرامر (صرف و نحو)، اہم الفاظ اور روزمرہ گفتگو کے جملے سکھانے والا ابتدائی کورس۔</p>
+                            <button type="button" class="btn mt-auto detail-trigger" data-target="#course-detail-arabic"><i class="bi bi-journal-bookmark-fill me-2"></i>کورس دیکھیں</button>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-lg-4 col-md-6" data-aos="zoom-in-up" data-aos-delay="300">
+                    <div class="custom-card course-card">
+                        <img src="https://img.freepik.com/free-photo/opened-quran-near-candle-sweet-dates_23-2147868960.jpg" class="card-img-top" alt="تجوید کورس" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body">
+                            <h5 class="card-title">تجوید القرآن (قاعدہ نورانیہ)</h5>
+                            <p class="card-text">قرآن مجید کو صحیح مخارج، صفات اور تجوید کے بنیادی قواعد کے ساتھ پڑھنا سیکھیں۔ یہ کورس قاعدہ نورانیہ پر مبنی ہے۔</p>
+                            <button type="button" class="btn mt-auto detail-trigger" data-target="#course-detail-tajweed"><i class="bi bi-journal-bookmark-fill me-2"></i>کورس دیکھیں</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="course-detail-fiqh" class="detail-content-area" data-aos="fade-up">
+                 <h3 class="sub-section-heading text-center display-6 mb-3">کورس: فقہ العبادات (تفصیلات جلد آرہی ہیں)</h3>
+                 <p class="lead text-center">یہاں فقہ العبادات کورس کے ماڈیولز، دورانیہ اور دیگر تفصیلات شامل کی جائیں گی۔</p>
+            </div>
+            </div>
+    </section>
+
+    <section id="media-section" class="page-section" data-aos="fade">
+        <div class="container">
+            <h2 class="section-heading">میڈیا لائبریری</h2>
+            <p class="lead mb-5">ہمارے علماء کرام کے آڈیو اور ویڈیو بیانات، خطبات جمعہ، علمی مذاکرے اور اسلامی نشیدوں کا مجموعہ۔</p>
+            <div class="row">
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="100">
+                    <div class="custom-card">
+                        <img src="https://placehold.co/600x400/ad1457/FFFFFF?text=Video+Lecture" class="card-img-top" alt="ویڈیو لیکچر" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">ویڈیو بیانات</h5>
+                            <p class="card-text small">مختلف موضوعات پر علمی و اصلاحی ویڈیو خطابات۔</p>
+                            <button type="button" class="btn btn-sm detail-trigger" data-target="#media-videos-detail"><i class="bi bi-play-btn-fill me-1"></i>دیکھیں</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="200">
+                    <div class="custom-card">
+                        <img src="https://placehold.co/600x400/ad1457/FFFFFF?text=Audio+Bayan" class="card-img-top" alt="آڈیو بیان" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">آڈیو بیانات</h5>
+                             <p class="card-text small">مفید آڈیو لیکچرز اور دروس کا مجموعہ۔</p>
+                            <button type="button" class="btn btn-sm detail-trigger" data-target="#media-audios-detail"><i class="bi bi-mic-fill me-1"></i>سنیں</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="300">
+                    <div class="custom-card">
+                        <img src="https://placehold.co/600x400/ad1457/FFFFFF?text=Nasheeds" class="card-img-top" alt="نشید" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Found';">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">حمد و نعت</h5>
+                            <p class="card-text small">دل کو چھو لینے والی حمدیہ و نعتیہ کلام۔</p>
+                            <button type="button" class="btn btn-sm detail-trigger" data-target="#media-nasheeds-detail"><i class="bi bi-music-note-beamed me-1"></i>سنیں</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="media-videos-detail" class="detail-content-area" data-aos="fade-up">
+                 <h3 class="sub-section-heading text-center display-6 mb-3">ویڈیو بیانات (جلد آرہے ہیں)</h3>
+            </div>
+        </div>
+    </section>
+    
+    <footer id="footer">
+        <div class="container">
+             <div class="row">
+                <div class="col-12 text-center">
+                    <p class="small opacity-75 mb-0">© <span id="year"></span> دارالعلوم علمیہ۔ تمام حقوق محفوظ ہیں۔</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800, 
+            offset: 80, 
+            easing: 'ease-in-out-quad',
+            once: true,
+        });
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        const navbar = document.querySelector('.navbar.fixed-top');
+        const navbarHeight = navbar ? navbar.offsetHeight : 70;
+
+        // Function to handle showing/hiding detail sections
+        function toggleDetailSection(targetId) {
+            const allDetailSections = document.querySelectorAll('.detail-content-area');
+            const targetElement = document.getElementById(targetId);
+
+            allDetailSections.forEach(sec => {
+                if (sec.id === targetId) {
+                    // Toggle display for the target element
+                    sec.style.display = sec.style.display === 'block' ? 'none' : 'block';
+                     if(sec.style.display === 'block') {
+                        AOS.refreshHard(); // Refresh AOS for newly shown elements
+                     }
+                } else {
+                    // Hide all other detail sections
+                    sec.style.display = 'none';
+                }
+            });
+
+            if (targetElement && targetElement.style.display === 'block') {
+                const offsetTop = targetElement.offsetTop - navbarHeight - 20; 
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Add click listeners to all trigger buttons
+        document.querySelectorAll('.detail-trigger').forEach(button => {
+            button.addEventListener('click', function () {
+                const targetId = this.getAttribute('data-target').substring(1); // Get ID without #
+                toggleDetailSection(targetId);
+            });
+        });
+         // Add click listeners to navbar links that point to detail sections within other page-sections
+        document.querySelectorAll('a.nav-link[href^="#"], a.btn[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                 const href = this.getAttribute('href');
+                 if (href && href.startsWith('#') && href.length > 1) {
+                     const targetElement = document.querySelector(href);
+                     if (targetElement) {
+                         // If the target is a detail-content-area, ensure it's shown
+                         if (targetElement.classList.contains('detail-content-area')) {
+                            e.preventDefault(); // Prevent default only if we are handling it via toggle
+                            toggleDetailSection(targetElement.id);
+                         } else if (targetElement.classList.contains('page-section')) {
+                             // Standard scroll for page sections
+                             e.preventDefault();
+                             const offsetTop = targetElement.offsetTop - navbarHeight;
+                             window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                             // Hide all detail sections when navigating to a main page section
+                             document.querySelectorAll('.detail-content-area').forEach(sec => sec.style.display = 'none');
+                         }
+                         
+                         const navbarToggler = document.querySelector('.navbar-toggler');
+                         const navbarCollapse = document.querySelector('.navbar-collapse.show');
+                         if (navbarCollapse && !navbarToggler.classList.contains('collapsed')) {
+                              bootstrap.Collapse.getInstance(navbarCollapse).hide();
+                         }
+                     }
+                 }
+            });
+        });
+
+        const scrollSpy = new bootstrap.ScrollSpy(document.body, {
+            target: '#navbarResponsive .navbar-nav',
+            offset: navbarHeight + 60 // Increased offset for better accuracy with dynamic content
+        });
+
+        // More robust active nav link handling
+        function updateActiveNavLink() {
+            let currentScroll = window.pageYOffset + navbarHeight + 60; // Adjusted for offset
+            let currentSectionId = "home"; // Default to home
+
+            document.querySelectorAll('.page-section').forEach(section => {
+                if (section.offsetTop <= currentScroll && (section.offsetTop + section.offsetHeight) > currentScroll) {
+                    currentSectionId = section.id;
+                    
+                    // Check if a detail section within this page-section is active and visible
+                    const visibleDetail = section.querySelector('.detail-content-area[style*="display: block"]');
+                    if (visibleDetail) {
+                        // Optionally, you could try to make the link that opened this detail active,
+                        // but for simplicity, keeping the main section link active is usually fine.
+                    }
+                }
+            });
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+             // If no section is "active" (e.g., at the very bottom or very top before first section), default to home if near top
+            if (window.pageYOffset < navbarHeight) {
+                 document.querySelectorAll('.nav-link.active').forEach(l => l.classList.remove('active'));
+                 document.querySelector('.nav-link[href="#home"]')?.classList.add('active');
+            }
+        }
+
+        window.addEventListener('load', updateActiveNavLink);
+        window.addEventListener('scroll', updateActiveNavLink);
+        window.addEventListener('resize', updateActiveNavLink); // Update on resize as well
+
+    </script>
+</body>
+</html>
