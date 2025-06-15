@@ -8,7 +8,7 @@ function fixMojibake(text) {
 
 const loadArticles = async () => {
   try {
-    const res = await fetch('http://localhost:5000/api/topic');
+    const res = await fetch('https://naatacadmey-backend.onrender.com/api/topic');
     const articles = await res.json();
     console.log("This is articles data ", articles);
 
@@ -44,7 +44,7 @@ const loadArticles = async () => {
 
 const loadIslamicEvents = async () => {
   try {
-    const res = await fetch('http://localhost:5000/api/topic'); // Replace with your actual API
+    const res = await fetch('https://naatacadmey-backend.onrender.com/api/topic'); // Replace with your actual API
     const events = await res.json();
     console.log("Islamic Events:", events);
 
@@ -76,7 +76,7 @@ const loadIslamicEvents = async () => {
 
 const ArticlesList = async () => {
   try {
-    const res = await fetch('http://localhost:5000/api/articles'); // Replace with your actual API
+    const res = await fetch('https://naatacadmey-backend.onrender.com/api/articles'); // Replace with your actual API
     const articles = await res.json();
     console.log("Articles:", articles);
 
@@ -122,7 +122,7 @@ const ArticlesList = async () => {
 
 const kalamlist = async () => {
   try {
-    const res = await fetch('http://localhost:5000/api/topic'); // Replace with your live API
+    const res = await fetch('https://naatacadmey-backend.onrender.com/api/topic'); // Replace with your live API
     const topics = await res.json();
     console.log("Kalam Topics:", topics);
 
